@@ -138,6 +138,12 @@
     [self.render setAVTransportURL:url];
 }
 
+- (void)onStatusChange:(DLNAStatus)status {
+    if ([self.delegate respondsToSelector:@selector(dlnaStatusChange:)]) {
+        [self.delegate dlnaStatusChange:status];
+    }
+}
+
 #pragma mark -- 搜索协议CLUPnPDeviceDelegate回调
 - (void)upnpSearchChangeWithResults:(NSArray<CLUPnPDevice *> *)devices{
     NSMutableArray *deviceMarr = [NSMutableArray array];
@@ -154,7 +160,7 @@
 }
 
 - (void)upnpSearchErrorWithError:(NSError *)error{
-//    NSLog(@"DLNA_Error======>%@", error);
+    [self onStatusChange:DLNAStatusError];
 }
 
 #pragma mark - CLUPnPResponseDelegate
@@ -173,6 +179,43 @@
     if ([self.delegate respondsToSelector:@selector(dlnaStartPlay)]) {
         [self.delegate dlnaStartPlay];
     }
+    [self onStatusChange:DLNAStatusPlay];
+}
+
+- (void)upnpPauseResponse {
+    [self onStatusChange:DLNAStatusPause];
+}
+
+- (void)upnpStopResponse {
+    [self onStatusChange:DLNAStatusStop];
+}
+
+- (void)upnpSeekResponse {
+    
+}
+
+- (void)upnpPreviousResponse {
+    
+}
+
+- (void)upnpNextResponse {
+    
+}
+
+- (void)upnpSetVolumeResponse {
+    
+}
+
+- (void)upnpSetNextAVTransportURIResponse {
+    
+}
+
+- (void)upnpGetVolumeResponse:(NSString *)volume {
+    
+}
+
+- (void)upnpGetPositionInfoResponse:(CLUPnPAVPositionInfo *)info {
+    
 }
 
 #pragma mark Set&Get

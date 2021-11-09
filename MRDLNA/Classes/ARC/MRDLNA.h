@@ -9,6 +9,14 @@
 #import "CLUPnP.h"
 #import "CLUPnPDevice.h"
 
+typedef NS_ENUM(NSUInteger, DLNAStatus) {
+    DLNAStatusPlay = 1,
+    DLNAStatusPause,
+    DLNAStatusStop,
+    DLNAStatusBuffer,
+    DLNAStatusError,
+};
+
 @protocol DLNADelegate <NSObject>
 
 @optional
@@ -23,6 +31,9 @@
  投屏成功开始播放
  */
 - (void)dlnaStartPlay;
+
+
+- (void)dlnaStatusChange:(DLNAStatus)status;
 
 @end
 
