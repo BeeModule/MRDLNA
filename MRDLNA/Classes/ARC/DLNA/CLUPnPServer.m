@@ -65,6 +65,11 @@
 }
 
 - (void)start{
+    if (_udpSocket.isClosed) {
+        [self search];
+        return;
+    }
+    
     NSError *error = nil;
     if (![_udpSocket bindToPort:ssdpPort error:&error]){
         [self onError:error];
@@ -90,7 +95,7 @@
     // 搜索前先清空设备列表
     [self.deviceDictionary removeAllObjects];
     self.receiveDevice = YES;
-    [self onChange];
+//    [self onChange];
     NSData * sendData = [[self getSearchString] dataUsingEncoding:NSUTF8StringEncoding];
     [_udpSocket sendData:sendData toHost:ssdpAddres port:ssdpPort withTimeout:-1 tag:1];
 }

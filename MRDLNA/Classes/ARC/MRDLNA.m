@@ -100,6 +100,10 @@
 }
 
 
+- (void)stopSearch{
+    [self.upd stop];
+}
+
 /**
  设置音量
  */

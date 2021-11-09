@@ -57,6 +57,8 @@ typedef NS_ENUM(NSUInteger, DLNAStatus) {
  */
 - (void)startSearch;
 
+- (void)stopSearch;
+
 /**
  DLNA投屏
  */
