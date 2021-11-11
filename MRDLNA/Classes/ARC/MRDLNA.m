@@ -142,6 +142,27 @@
     [self.render setAVTransportURL:url];
 }
 
+/**
+ 获取播放进度,可通过协议回调使用
+ */
+- (void)getPositionInfo {
+    [self.render getPositionInfo];
+}
+
+/**
+ 获取播放状态,可通过协议回调使用
+ */
+- (void)getTransportInfo {
+    [self.render getTransportInfo];
+}
+
+/**
+ 获取音频,可通过协议回调使用
+ */
+- (void)getVolume {
+    [self.render getVolume];
+}
+
 - (void)onStatusChange:(DLNAStatus)status {
     if ([self.delegate respondsToSelector:@selector(dlnaStatusChange:)]) {
         [self.delegate dlnaStatusChange:status];
@@ -177,6 +198,9 @@
     if (!([info.currentTransportState isEqualToString:@"PLAYING"] || [info.currentTransportState isEqualToString:@"TRANSITIONING"])) {
         [self.render play];
     }
+    if ([self.delegate respondsToSelector:@selector(dlnaGetTransportInfoResponse:)]) {
+        [self.delegate dlnaGetTransportInfoResponse:info];
+    }
 }
 
 - (void)upnpPlayResponse{
@@ -195,31 +219,45 @@
 }
 
 - (void)upnpSeekResponse {
-    
+    if ([self.delegate respondsToSelector:@selector(dlnaSeekResponse)]) {
+        [self.delegate dlnaSeekResponse];
+    }
 }
 
 - (void)upnpPreviousResponse {
-    
+    if ([self.delegate respondsToSelector:@selector(dlnaPreviousResponse)]) {
+        [self.delegate dlnaPreviousResponse];
+    }
 }
 
 - (void)upnpNextResponse {
-    
+    if ([self.delegate respondsToSelector:@selector(dlnaNextResponse)]) {
+        [self.delegate dlnaNextResponse];
+    }
 }
 
 - (void)upnpSetVolumeResponse {
-    
+    if ([self.delegate respondsToSelector:@selector(dlnaSetVolumeResponse)]) {
+        [self.delegate dlnaSetVolumeResponse];
+    }
 }
 
 - (void)upnpSetNextAVTransportURIResponse {
-    
+    if ([self.delegate respondsToSelector:@selector(dlnaSetNextAVTransportURIResponse)]) {
+        [self.delegate dlnaSetNextAVTransportURIResponse];
+    }
 }
 
 - (void)upnpGetVolumeResponse:(NSString *)volume {
-    
+    if ([self.delegate respondsToSelector:@selector(dlnaGetVolumeResponse:)]) {
+        [self.delegate dlnaGetVolumeResponse:volume];
+    }
 }
 
 - (void)upnpGetPositionInfoResponse:(CLUPnPAVPositionInfo *)info {
-    
+    if ([self.delegate respondsToSelector:@selector(dlnaGetPositionInfoResponse:)]) {
+        [self.delegate dlnaGetPositionInfoResponse:info];
+    }
 }
 
 #pragma mark Set&Get

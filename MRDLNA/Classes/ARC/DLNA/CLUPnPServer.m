@@ -65,7 +65,7 @@
 }
 
 - (void)start{
-    if (_udpSocket.isClosed) {
+    if (!_udpSocket.isClosed) {
         [self search];
         return;
     }

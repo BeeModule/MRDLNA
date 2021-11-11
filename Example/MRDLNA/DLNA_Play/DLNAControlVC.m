@@ -85,4 +85,16 @@
     [self.dlnaManager playTheURL:testVideo];
 }
 
+- (IBAction)getVolume:(id)sender {
+    [self.dlnaManager getVolume];
+}
+
+- (IBAction)getTransportInfo:(id)sender {
+    [self.dlnaManager getTransportInfo];
+}
+
+- (IBAction)getPositionInfo:(id)sender {
+    [self.dlnaManager getPositionInfo];
+}
+
 @end

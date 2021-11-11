@@ -34,22 +34,52 @@
     [self.view addSubview:self.dlnaTable];
     self.dlnaManager = [MRDLNA sharedMRDLNAManager];
     self.dlnaManager.delegate = self;
+    
+    [self timer];
 }
 
+- (void)timer {
+    __weak DLNASearchVC* wself = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [wself.dlnaManager startSearch];
+        [wself timer];
+    });
+}
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.dlnaManager startSearch];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.dlnaManager stopSearch];
+}
+
 - (void)searchDLNAResult:(NSArray *)devicesArray{
-    NSLog(@"发现设备");
+    NSLog(@"发现设备%d", devicesArray.count);
     self.deviceArr = devicesArray;
     [self.dlnaTable reloadData];
 }
 
 - (void)dlnaStartPlay{
     NSLog(@"投屏成功 开始播放");
+}
+
+- (void)dlnaStatusChange:(DLNAStatus)status {
+    NSLog(@"dlnaStatusChange:%lu", (unsigned long)status);
+}
+
+- (void)dlnaGetVolumeResponse:(NSString *)volume {
+    NSLog(@"%@", volume);
+}
+
+- (void)dlnaGetPositionInfoResponse:(CLUPnPAVPositionInfo *)info {
+    NSLog(@"%@", info);
+}
+
+- (void)dlnaGetTransportInfoResponse:(CLUPnPTransportInfo *)info {
+    NSLog(@"%@", info);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

@@ -35,6 +35,22 @@ typedef NS_ENUM(NSUInteger, DLNAStatus) {
 
 - (void)dlnaStatusChange:(DLNAStatus)status;
 
+- (void)dlnaSeekResponse;
+
+- (void)dlnaPreviousResponse;
+
+- (void)dlnaNextResponse;
+
+- (void)dlnaSetVolumeResponse;
+
+- (void)dlnaSetNextAVTransportURIResponse;
+
+- (void)dlnaGetVolumeResponse:(NSString *)volume;
+
+- (void)dlnaGetPositionInfoResponse:(CLUPnPAVPositionInfo *)info;
+
+- (void)dlnaGetTransportInfoResponse:(CLUPnPTransportInfo *)info;
+
 @end
 
 @interface MRDLNA : NSObject
@@ -98,4 +114,20 @@ typedef NS_ENUM(NSUInteger, DLNAStatus) {
  播放切集
  */
 - (void)playTheURL:(NSString *)url;
+
+/**
+ 获取播放进度,可通过协议回调使用
+ */
+- (void)getPositionInfo;
+
+/**
+ 获取播放状态,可通过协议回调使用
+ */
+- (void)getTransportInfo;
+
+/**
+ 获取音频,可通过协议回调使用
+ */
+- (void)getVolume;
+
 @end
